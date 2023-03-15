@@ -18,20 +18,30 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        \App\Models\User::create([
-            'name' => 'ijul',
-            'username' => 'ijul123',
-            'email' => 'ijul@gmail.com',
-            'password' => bcrypt('12345')
-        ]);
+        // \App\Models\User::create([
+        //     'name' => 'ijul',
+        //     'username' => 'ijul123',
+        //     'email' => 'ijul@gmail.com',
+        //     'password' => bcrypt('12345')
+        // ]);
 
 
 
+        // Petugas::create([
+        //     'nama' => 'ijul',
+        //     'alamat' => 'jalan kedondong',
+        //     'telepon' => '08165000423',
+        //     'email' => 'ijul@gmail.com',
+        //     'username' => 'ijul123',
+        //     'password' => bcrypt('12345')
+        // ]);
         Petugas::create([
-            'nama' => 'ijul',
-            'alamat' => 'jalan kedondong',
-            'telepon' => '08165000423',
-            'email' => 'ijul@gmail.com',
+            'nama' => 'alu',
+            'alamat' => 'jalan rambutan',
+            'telepon' => '081654210423',
+            'email' => 'alu@gmail.com',
+            'username' => 'alu1',
+            'password' => bcrypt('12345')
         ]);
 
         // Penulis::create([

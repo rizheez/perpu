@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Foundation\Auth\User as Model;
 
 class Petugas extends Model
 {
     use HasFactory;
+    // use \Illuminate\Auth\Authenticatable;
+
     protected $primaryKey = 'id';
     public $incrementing = false;
 

@@ -7,74 +7,73 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
+
 class PenulisController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('content.penulis');
+        $data = Penulis::all();
+        if ($request->ajax()) {
+
+            $datatable = Datatables::of($data);
+            $datatable->addIndexColumn();
+            // $datatable->addColumn('Aksi', function ($row) {
+            //     $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+            //     $btn .= '&nbsp;&nbsp;';
+            //     $btn .= '<a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+            //     return $btn;
+            // });
+            return $datatable->make(true);
+        }
+        return view('content.penulis', ['data' => $data]);
     }
 
-    public function showData()
+
+    public function store(Request $request)
     {
-        // $penulis = Penulis::all();
-        // return Datatables::of($penulis)->make(true);
-        $penulis = Penulis::all();
-        return view('content.penulis', ['penulis' => $penulis]);
-    }
+        $request->validate([
+            'nama' => 'required|max:255',
+            'email' => 'required|email|max:255',
+        ]);
 
-    // public function kategori()
-    // {
-    //     $kategori = DB::table('kategori')->get();
-    //     return view('kategori', ['kategori' => $kategori]);
-    // }
+        Penulis::create([
+            'nama' => $request->nama,
+            'email' => $request->email,
 
-    public function tambahData(Request $request)
-    {
-        $Penulis = new Penulis;
-        $Penulis->nama = $request->input('nama');
-        $Penulis->email = $request->input('email');
-        $Penulis->save();
+        ]);
 
-        return redirect()->route('penulis.index');
-        return response()->json(['success' => 'Data kategori berhasil ditambahkan!', 'id_penulis' => $Penulis->id]);
+        return response()->json(['success' => true]);
     }
 
     public function edit($id)
     {
         $penulis = Penulis::findOrFail($id);
-
-        return view('content.penulis_edit', compact('penulis'));
+        return response()->json(['result' => $penulis]);
     }
 
-    public function EditData(Request $request, $id)
+
+    public function update(Request $request, $id)
     {
 
-
-        // Validasi input
-        $validatedData = $request->validate([
-            'nama' => 'max:255',
-            'email' => 'max:255',
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'
         ]);
 
-        // Ambil data kategori dari database berdasarkan ID
-        $penulis = Penulis::findOrFail($id);
 
-        // Update data penulis
-        $penulis->nama = $validatedData['nama'];
-        $penulis->email = $validatedData['email'];
+        $penulis = Penulis::find($id);
+        $penulis->nama = $request->nama;
+        $penulis->email = $request->email;
         $penulis->save();
 
-        // Redirect ke halaman kategori index dengan pesan sukses
-        return redirect()->route('penulis.index')->with('success', 'Penulis berhasil diupdate.');
+        return response()->json(['success' => true, 'message' => 'Success']);
     }
 
-    public function hapusData($id)
+    public function delete($id)
     {
+        $user = Penulis::findOrFail($id);
+        $user->delete();
 
-
-        $penulis = Penulis::findOrFail($id);
-        $penulis->delete();
-
-        return redirect()->route('penulis.index')->with('success', 'Penulis has been deleted!');
+        return response()->json(['success' => true]);
     }
 }

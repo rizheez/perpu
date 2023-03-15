@@ -13,4 +13,9 @@ class Penulis extends Model
 
     protected $table = 'penulis';
     protected $guarded = ['id'];
+
+    public function buku()
+    {
+        return $this->hasMany(Buku::class, 'penulis_id', 'id');
+    }
 }

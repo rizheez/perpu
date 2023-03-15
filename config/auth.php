@@ -69,6 +69,7 @@ return [
             'model' => App\Models\User::class,
             'username' => 'username'
         ],
+
         'petugas' => [
             'driver' => 'eloquent',
             'model' => App\Models\Petugas::class,

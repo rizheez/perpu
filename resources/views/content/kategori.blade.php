@@ -1,6 +1,8 @@
 @extends('layouts.master')
 @section('title', 'DATA PENULIS')
-
+@push('css')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endpush
 @section('content')
     <div class="main-panel">
         <div class="content">
@@ -38,7 +40,7 @@
                             <div class="card-header">
                                 <div class="d-flex align-items-center">
                                     <h4 class="page-title text-uppercase ml-2">Data Kategori</h4>
-                                    <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#addRowModal">
+                                    <button class="btn btn-primary ml-auto" data-toggle="modal" data-target="#addModal">
                                         <i class="fa fa-plus"></i>
                                         Tambah Data
                                     </button>
@@ -46,7 +48,7 @@
                             </div>
                             <div class="card-body">
                                 <!-- Modal -->
-                                <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header no-bd">
@@ -64,15 +66,14 @@
                                             </div>
                                             <div class="modal-body">
                                                 <p class="small">Masukkan Data Penulis</p>
-                                                <form id="form_kategori" method="post"
-                                                    action="{{ route('kategori.tambah') }}">
+                                                <form id="add-form" method="post">
                                                     @csrf
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group form-group-default">
                                                                 <label for="nama">Nama</label>
                                                                 <input id="nama" type="text" name="nama"
-                                                                    class="form-control" placeholder="Isi Nama" required>
+                                                                    class="form-control" placeholder="Isi Nama">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -89,14 +90,14 @@
                                 </div>
 
                                 <div class="table-responsive">
-                                    <table id="add-row" class="display table table-striped table-hover">
+                                    <table id="kategori-table" class="display table table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
                                                 <th>ID Kategori</th>
                                                 <th>Kategori</th>
 
-                                                <th style="width: 10%">Action</th>
+                                                <th style="width: 10%">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -104,11 +105,11 @@
                                                 <th>No</th>
                                                 <th>ID Kategori</th>
                                                 <th>Kategori</th>
-                                                <th>Action</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            @foreach ($kategori as $k)
+                                            {{-- @foreach ($kategori as $k)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $k->id }}</td>
@@ -135,7 +136,94 @@
 
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            @endforeach --}}
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header no-bd">
+                                                            <h5 class="modal-title">
+                                                                <span class="fw-mediumbold">
+                                                                    New</span>
+                                                                <span class="fw-light">
+                                                                    Row
+                                                                </span>
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="small">Edit Data Penulis</p>
+                                                            <form id="edit-form">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <input type="hidden" name="id" class="id-field"
+                                                                    value="">
+                                                                <div class="form-group">
+                                                                    <label for="nama"
+                                                                        class="col-form-label">Nama:</label>
+                                                                    <input type="text"
+                                                                        class="form-control form-group-default"
+                                                                        id="edit-nama" name="nama" value=""
+                                                                        required>
+                                                                </div>
+                                                                <div class="modal-footer no-bd">
+                                                                    <button type="submit" id="editKategoriButton"
+                                                                        class="btn btn-primary btn-berhasil">Add</button>
+                                                                    <button type="button" class="btn btn-danger"
+                                                                        data-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- Modal Edit -->
+                                            {{-- <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                                                aria-labelledby="editModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editModalLabel">Edit Data</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!-- form untuk mengedit data -->
+                                                            <form id="edit-form" method="post">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <div class="modal-body">
+                                                                    <input type="hidden" name="id" class="id-field"
+                                                                        value="">
+                                                                    <div class="form-group">
+                                                                        <label for="nama"
+                                                                            class="col-form-label">Nama:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="edit-kategori" name="nama"
+                                                                            value="" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close</button>
+                                                                    <button type="button"
+                                                                        class="btn btn-primary btn-simpan"
+                                                                        id="editKategoriButton">Save
+                                                                        changes</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> --}}
                                         </tbody>
                                     </table>
                                 </div>
@@ -149,7 +237,7 @@
     </div>
 @endsection
 
-@push('script')
+{{-- @push('script')
     <script src="{{ asset('assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
 
     <script>
@@ -273,6 +361,205 @@
                 $('#addRowModal').modal('hide');
 
             });
+        });
+    </script>
+@endpush --}}
+
+
+@push('script')
+    <script src="{{ asset('assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable
+            const table = $('#kategori-table').DataTable({
+                responsive: true,
+                autoWidth: false,
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('kategori.index') }}",
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        searchable: false
+                    },
+                    {
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'Aksi',
+                        name: 'Aksi',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return '<a href="javascript:void(0)" class="btn btn-link btn-info edit" data-toggle="modal" data-target="#editModal" data-id="' +
+                                row.id + '"><i class="fa fa-edit"></i></a> ' +
+                                '<a href="javascript:void(0)" class="btn btn btn-link btn-danger delete" data-id="' +
+                                row.id + '"><i class="fa fa-times"></i></a>';
+                        }
+                    }
+                ]
+            });
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
+
+            // Handle Tambah Penulis
+            $('#add-form').on('submit', function(event) {
+                event.preventDefault();
+                let name = $('#nama').val();
+
+                if (!name) {
+                    swal({
+                        title: "Error",
+                        text: "Field tidak boleh kosong!",
+                        icon: "error",
+                    });
+                    return false;
+                }
+                $.ajax({
+                    url: "/kategori",
+                    type: "POST",
+                    data: $('#add-form').serialize(),
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#add-form')[0].reset();
+                        $('#addModal').modal('hide');
+                        swal({
+                            title: 'Berhasil!',
+                            text: 'Data Berhasil ditambahkan.',
+                            icon: 'success',
+                            allowEnterKey: true,
+                            allowEscapeKey: true,
+                        }).then(() => {
+                            table.ajax.reload();
+
+                        })
+                    },
+                    error: function(data) {
+                        swal({
+                            title: 'Oops!',
+                            text: 'Terjadi kesalahan saat menambah data.',
+                            icon: 'error'
+                        });
+                    }
+                });
+            });
+
+            $('#kategori-table tbody').on('click', '.delete', function(event) {
+                event.preventDefault();
+                var id = $(this).data('id');
+                swal({
+                    title: 'Apakah Anda Yakin?',
+                    text: 'Data akan dihapus secara permanen!',
+                    type: 'warning',
+                    buttons: {
+                        confirm: {
+                            text: 'Iya!, Hapus Data!',
+                            className: 'btn btn-primary'
+                        },
+                        cancel: {
+                            visible: true,
+                            text: 'Tidak!',
+                            className: 'btn btn-danger'
+                        }
+                    }
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            url: "/kategori/" + id,
+                            type: "DELETE",
+                            dataType: 'json',
+                            success: function(data) {
+                                swal({
+                                    title: 'Berhasil!',
+                                    text: 'Data Berhasil dihapus.',
+                                    icon: 'success'
+                                }).then(() => {
+                                    table.ajax.reload();
+
+                                })
+                            },
+                            error: function(data) {
+                                swal({
+                                    title: 'Oops!',
+                                    text: 'Terjadi kesalahan saat menghapus data.',
+                                    icon: 'error'
+                                });
+                            }
+                        });
+                    } else {
+                        swal('Data Aman!')
+                    }
+
+
+                });
+            })
+
+
+
+            // Handle Edit Button Click
+            $('#kategori-table tbody').on('click', '.edit', function(event) {
+                var id = $(this).data('id');
+                event.preventDefault();
+                console.log(id)
+                $.ajax({
+                    url: '/kategori/' + id + '/edit',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        // memasukkan data penulis ke dalam modal
+                        $('#editModal').modal('show');
+                        $('#editModal').attr('data-id', id);
+                        $('#edit-nama').val(data.result.nama);
+                    }
+                });
+            });
+
+            $('#edit-form').on('submit', function(event) {
+                var id = $('#editModal').data('id');
+                event.preventDefault();
+                console.log(id)
+                $.ajax({
+                    url: '/kategori/' + id,
+                    type: "PUT",
+                    data: $('#edit-form').serialize(),
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#edit-form')[0].reset();
+                        $('#editModal').modal('hide');
+                        swal({
+                            title: 'Berhasil!',
+                            text: 'Data Berhasil ditambahkan.',
+                            icon: 'success',
+                            allowEnterKey: true,
+                            closeOnEsc: true,
+                        }).then(() => {
+                            location.reload();
+
+                        })
+                    },
+                    error: function(data) {
+                        swal({
+                            title: 'Oops!',
+                            text: 'Terjadi kesalahan saat mengedit data.',
+                            icon: 'error'
+                        });
+                    }
+                });
+            })
+
         });
     </script>
 @endpush

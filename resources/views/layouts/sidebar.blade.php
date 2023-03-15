@@ -20,13 +20,13 @@
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#base">
                         <i class="fas fa-layer-group"></i>
-                        <p>Informasi</p>
+                        <p>Master Data</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="base">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="{{ route('buku') }}">
+                                <a href="{{ route('buku.index') }}">
                                     <i class="fas fa-book"></i>
                                     <span>Buku</span>
                                 </a>
@@ -63,7 +63,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a data-toggle="collapse" href="#maps">
+                    <a href="{{ route('petugas.index') }}">
                         <i class="fas fa-user-tie"></i>
                         <p>Petugas</p>
                     </a>

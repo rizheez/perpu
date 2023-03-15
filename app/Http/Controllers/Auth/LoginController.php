@@ -11,7 +11,7 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        if (Auth::check()) {
+        if (Auth::guard('petugas')->check()) {
             return redirect()->route('dashboard');
         }
 
@@ -25,7 +25,7 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (auth()->attempt($credentials)) {
+        if (Auth::guard('petugas')->attempt($credentials)) {
             $request->session()->regenerate();
 
             return redirect()->intended();

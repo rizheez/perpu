@@ -16,7 +16,11 @@ return new class extends Migration
             $table->string('nama', 50);
             $table->string('alamat', 50);
             $table->char('telepon', 13);
-            $table->string('email', 50);
+            $table->string('email', 50)->unique();
+            $table->string('username')->unique();
+            $table->string('password');
+            $table->string('profile')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

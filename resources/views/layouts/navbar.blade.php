@@ -7,17 +7,19 @@
             <li class="nav-item dropdown hidden-caret">
                 <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                     <div class="avatar-sm">
-                        <img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                        <img src="{{ asset('storage/profile/' . Auth::guard('petugas')->user()->profile) }}"
+                            alt="..." class="avatar-img rounded-circle">
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
                     <li>
                         <div class="user-box">
-                            <div class="avatar-lg"><img src="../assets/img/profile.jpg" alt="image profile"
-                                    class="avatar-img rounded"></div>
+                            <div class="avatar-lg"><img
+                                    src="{{ asset('storage/profile/' . Auth::guard('petugas')->user()->profile) }}"
+                                    alt="image profile" class="avatar-img rounded"></div>
                             <div class="u-text">
-                                <h4>{{ Auth::user()->name }}</h4>
-                                <p class="text-muted">Administrator</p>
+                                <h4 class="text-uppercase">{{ Auth::guard('petugas')->user()->nama }}</h4>
+                                <p class="text-muted">Petugas</p>
                             </div>
                         </div>
                     </li>

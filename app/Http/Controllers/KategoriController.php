@@ -9,10 +9,19 @@ use Yajra\DataTables\Facades\DataTables;
 
 class KategoriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('content.kategori');
+        $data = Kategori::all();
+        if ($request->ajax()) {
+
+            $datatable = Datatables::of($data);
+            $datatable->addIndexColumn();
+
+            return $datatable->make(true);
+        }
+        return view('content.kategori', ['data' => $data]);
     }
+
 
     public function showData()
     {
@@ -22,56 +31,59 @@ class KategoriController extends Controller
         return view('content.kategori', ['kategori' => $kategori]);
     }
 
-    // public function kategori()
-    // {
-    //     $kategori = DB::table('kategori')->get();
-    //     return view('kategori', ['kategori' => $kategori]);
-    // }
-
-    public function tambahData(Request $request)
+    public function store(Request $request)
     {
-        $Kategori = new Kategori;
-        $Kategori->nama = $request->input('nama');
-        $Kategori->save();
+        $request->validate([
+            'nama' => 'required|max:255',
 
-        return redirect()->route('kategori.index');
+        ]);
+
+        Kategori::create([
+            'nama' => $request->nama,
+        ]);
+
+        return response()->json(['success' => true]);
     }
+
 
     public function edit($id)
     {
         $kategori = Kategori::findOrFail($id);
-
-        return view('content.kategori_edit', compact('kategori'));
+        return response()->json(['result' => $kategori]);
     }
 
-    public function EditData(Request $request, $id)
+
+    public function update(Request $request, $id)
     {
 
-
-        // Validasi input
-        $validatedData = $request->validate([
-            'nama' => 'max:255',
+        $request->validate([
+            'nama' => 'required|string|max:255',
         ]);
 
-        // Ambil data kategori dari database berdasarkan ID
-        $Kategori = Kategori::findOrFail($id);
 
-        // Update data Kategori
-        $Kategori->nama = $validatedData['nama'];
+        // $kategori = Kategori::find($id);
+        // $kategori->nama = $request->nama;
+        // $kategori->save();
 
-        $Kategori->save();
+        $kategori = Kategori::find($id);
+        $nama_asli = $kategori->nama; // Ambil nilai asli dari database
+        $nama_baru = $request->nama; // Ambil nilai baru dari form
 
-        // Redirect ke halaman kategori index dengan pesan sukses
-        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diupdate.');
+        // Bandingkan nilai asli dengan nilai baru
+        if ($nama_asli !== $nama_baru) {
+            $kategori->nama = $nama_baru;
+            $kategori->save();
+        }
+
+        return response()->json(['success' => true, 'message' => 'Success']);
     }
 
-    public function hapusData($id)
+
+    public function delete($id)
     {
+        $kategori = Kategori::findOrFail($id);
+        $kategori->delete();
 
-
-        $Kategori = Kategori::findOrFail($id);
-        $Kategori->delete();
-
-        return redirect()->route('kategori.index')->with('success', 'Kategori has been deleted!');
+        return response()->json(['success' => true]);
     }
 }

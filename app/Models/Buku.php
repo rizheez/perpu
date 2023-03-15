@@ -16,8 +16,18 @@ class Buku extends Model
     {
         parent::boot();
 
-        static::creating(function ($petugas) {
-            $petugas->id = 'bku' . str_pad(Petugas::count() + 1, 4, '0', STR_PAD_LEFT);
+        static::creating(function ($buku) {
+            $buku->id = 'bku' . str_pad(Buku::count() + 1, 4, '0', STR_PAD_LEFT);
         });
+    }
+
+    public function penulis()
+    {
+        return $this->belongsTo(Penulis::class, 'penulis_id', 'id');
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
 }
