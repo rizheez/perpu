@@ -63,6 +63,9 @@
                                 <div class="u-text">
                                     <h4 class="text-uppercase">Administrator</h4>
                                     <p class="text-muted">Administrator</p>
+                                    <p class="text-muted"><i
+                                            class="btn-success btn-link btn-rounded bi bi-circle-fill"></i>
+                                        ONLINE</p>
                                 </div>
 
                             </div>
