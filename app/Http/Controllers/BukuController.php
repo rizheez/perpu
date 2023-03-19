@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class BukuController extends Controller
 {
+    // method untuk menampilkan data buku
     public function index(Request $request)
     {
         $data = Buku::with(['penulis', 'kategori'])->get();
@@ -21,10 +22,11 @@ class BukuController extends Controller
                 })
                 ->make(true);
         }
-
+        // jika bukan request ajax, maka tampilkan view buku
         return view('content.informasi.buku.buku');
     }
 
+    // method untuk menampilkan form tambah anggota
     public function create()
     {
         $penulis = Penulis::all();
@@ -33,14 +35,10 @@ class BukuController extends Controller
         return view('content.informasi.buku.formTambahBuku', compact('penulis', 'kategori'));
     }
 
-    public function detail($id)
-    {
-        $data = Buku::with(['penulis', 'kategori'])->find($id);
-        return view('content.informasi.buku.detail', compact('data'));
-    }
-
+    // method untuk menyimpan data anggota
     public function store(Request $request)
     {
+        //validasi data yang telah dimasukkan
         $request->validate([
             'judul' => 'required|string|max:100',
             'penulis_id' => 'required|exists:penulis,id',
@@ -51,6 +49,7 @@ class BukuController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
+        // membuat instance anggota dan mengisi datanya dari input user
         $buku = new Buku;
         $buku->judul = $request->judul;
         $buku->penulis_id = $request->penulis_id;
@@ -59,18 +58,22 @@ class BukuController extends Controller
         $buku->tahun_terbit = $request->tahun_terbit;
         $buku->stok = $request->stok;
 
+        // menyimpan file gambar ke storage jika user mengupload gambar
         if ($request->hasFile('gambar')) {
             $gambar = $request->file('gambar');
             $namaGambar = time() . '_' . $gambar->getClientOriginalName();
-            $path = $gambar->storeAs('public', $namaGambar);
+            $path = $gambar->storeAs('public/buku/gambar', $namaGambar);
             $buku->gambar = $namaGambar;
         }
 
+        // menyimpan data anggota ke database
         $buku->save();
 
+        // redirect ke halaman sebelumnya dengan pesan sukses
         return redirect()->back()->with('success', 'Buku berhasil ditambahkan');
     }
 
+    // method untuk menampilkan form edit anggota
     public function edit($id)
     {
         $data = Buku::find($id);
@@ -79,9 +82,11 @@ class BukuController extends Controller
         return view('content.informasi.buku.editBuku', compact('data', 'penulis', 'kategori'));
     }
 
+    // method untuk mengupdate data anggota
     public function update(Request $request, $id)
     {
 
+        //validasi data yang telah dimasukkan
         $request->validate([
             'judul' => 'required|string|max:100',
             'penulis_id' => 'required|exists:penulis,id',
@@ -92,7 +97,9 @@ class BukuController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:4048'
         ]);
 
+        // mencari anggota yang akan diupdate
         $buku = Buku::find($id);
+        // mengisi data anggota dengan input user
         $buku->judul = $request->judul;
         $buku->penulis_id = $request->penulis_id;
         $buku->kategori_id = $request->kategori_id;
@@ -101,15 +108,16 @@ class BukuController extends Controller
         $buku->stok = $request->stok;
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama
-            Storage::delete('public/' . $buku->gambar);
+            Storage::delete('public/buku/gambar' . $buku->gambar);
 
             $gambar = $request->file('gambar');
             $namaGambar = time() . '_' . $gambar->getClientOriginalName();
-            $path = $gambar->storeAs('public', $namaGambar);
+            $path = $gambar->storeAs('public/buku/gambar', $namaGambar);
             $buku->gambar = $namaGambar;
         }
+        // menyimpan data anggota ke database
         $buku->save();
-
+        // redirect ke halaman anggota dengan pesan sukses
         return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan');
     }
 
@@ -118,7 +126,7 @@ class BukuController extends Controller
         $buku = Buku::findOrFail($id);
         //hapus file gambar di stograge
         if ($buku->gambar != null) {
-            Storage::delete('public/' . $buku->gambar);
+            Storage::delete('public/buku/gambar' . $buku->gambar);
         }
         $buku->delete();
 

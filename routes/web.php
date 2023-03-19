@@ -4,11 +4,14 @@ use App\Models\Penulis;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\PenulisController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\Auth\LogoutController;
 
 /*
@@ -22,87 +25,87 @@ use App\Http\Controllers\Auth\LogoutController;
 |
 */
 
-// Route::get('/dashboard', function () {
-//     return view('content.dashboard');
-// });
-
-// Route::middleware('auth:petugas,petugas_middleware')->group(function () {
-//     // route yang membutuhkan autentikasi
-// });
-
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth:petugas');
 
 
+// Route untuk mengakses halaman utama
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
-// Route::get('/data/stok', [BarangController::class, 'barang'])->name('stok')->middleware('auth:petugas');
+// Route untuk mengakses halaman dashboard petugas
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth:petugas');
 
+// Route untuk mengakses halaman buku
 Route::controller(BukuController::class)->group(function () {
-    Route::get('/buku', 'index')->name('buku.index')->middleware('auth:petugas');
-    Route::get('/buku/tambahdata', 'create')->name('buku.create')->middleware('auth:petugas');
-    Route::get('/buku/detail/{id}', 'detail')->name('buku.detail')->middleware('auth:petugas');
-    Route::get('/buku/{id}/edit', 'edit')->name('buku.update')->middleware('auth:petugas');
-    Route::post('/buku/tambahdata', 'store')->name('buku.store')->middleware('auth:petugas');
-    Route::put('/buku/{id}', 'update')->name('buku.edit')->middleware('auth:petugas');
-    Route::delete('/buku/{id}', 'delete')->name('buku.hapus')->middleware('auth:petugas');
+    Route::get('/admin/buku', 'index')->name('buku.index'); // Halaman daftar buku
+    Route::get('/admin/buku/tambahdata', 'create')->name('buku.create'); // Halaman form tambah buku
+    Route::get('/admin/buku/{id}/edit', 'edit')->name('buku.update'); // Halaman form edit buku dengan id tertentu
+    Route::post('/admin/buku/tambahdata', 'store')->name('buku.store'); // Aksi tambah buku ke database
+    Route::put('/admin/buku/{id}', 'update')->name('buku.edit'); // Aksi edit buku dengan id tertentu pada database
+    Route::delete('/admin/buku/{id}', 'delete')->name('buku.hapus'); // Aksi hapus buku dengan id tertentu pada database
+})->middleware('auth:petugas');
+
+// Route untuk mengakses halaman petugas (hanya admin yang dapat mengakses)
+Route::middleware('admin')->group(function () {
+    // routes for admin
+    Route::controller(PetugasController::class)->group(function () {
+        Route::get('/admin/petugas', 'index')->name('petugas.index'); // Halaman daftar petugas
+        Route::get('/admin/petugas/tambahdata', 'create')->name('petugas.create'); // Halaman form tambah petugas
+        Route::get('/admin/petugas/{id}/edit', 'edit')->name('petugas.update'); // Halaman form edit petugas dengan id tertentu
+        Route::post('/admin/petugas/tambahdata', 'store')->name('petugas.store'); // Aksi tambah petugas ke database
+        Route::put('/admin/petugas/{id}', 'update')->name('petugas.edit'); // Aksi edit petugas dengan id tertentu pada database
+        Route::delete('/admin/petugas/{id}', 'delete')->name('petugas.hapus'); // Aksi hapus petugas dengan id tertentu pada database
+    });
 });
 
-
+// Route untuk mengakses halaman profil petugas
 Route::controller(PetugasController::class)->group(function () {
-    Route::get('/petugas', 'index')->name('petugas.index')->middleware('auth:petugas');
-    Route::get('/petugas/tambahdata', 'create')->name('petugas.create')->middleware('auth:petugas');
-    Route::get('/petugas/detail/{id}', 'detail')->name('petugas.detail')->middleware('auth:petugas');
-    Route::get('/petugas/{id}/edit', 'edit')->name('petugas.update')->middleware('auth:petugas');
-    Route::post('/petugas/tambahdata', 'store')->name('petugas.store')->middleware('auth:petugas');
-    Route::put('/petugas/{id}', 'update')->name('petugas.edit')->middleware('auth:petugas');
-    Route::delete('/petugas/{id}', 'delete')->name('petugas.hapus')->middleware('auth:petugas');
-});
+    Route::get('/admin/petugas/account/{id}', 'account')->name('petugas.account'); // Halaman profil petugas dengan id tertentu
+    Route::put('/admin/petugas/account/{id}', 'editAccount')->name('petugas.edits'); // Aksi edit profil petugas dengan id tertentu pada database
+})->middleware('auth:petugas');
+
+// Route untuk mengakses halaman anggota
+Route::controller(AnggotaController::class)->group(function () {
+    Route::get('/admin/anggota', 'index')->name('anggota.index'); // Menampilkan daftar anggota
+    Route::get('/admin/anggota/tambahdata', 'create')->name('anggota.create'); // Menampilkan form untuk menambahkan data anggota baru
+    Route::get('/admin/anggota/{id}/edit', 'edit')->name('anggota.update'); // Menampilkan form untuk mengubah data anggota dengan id tertentu
+    Route::post('/admin/anggota/tambahdata', 'store')->name('anggota.store'); // Menyimpan data anggota baru ke dalam database
+    Route::put('/admin/anggota/{id}', 'update')->name('anggota.edit'); // Mengubah data anggota dengan id tertentu di dalam database
+    Route::delete('/admin/anggota/{id}', 'delete')->name('anggota.hapus'); // Menghapus data anggota dengan id tertentu dari database
+    Route::get('/admin/anggota/cetak-kartu/{id}', 'generateCard')->name('anggota.cetak'); // Mencetak kartu anggota dengan id tertentu
+    Route::post('/admin/anggota/laporan/', 'generatePdf')->name('laporan.anggota'); // Membuat laporan data anggota dalam format PDF
+})->middleware('auth:petugas');
 
 
-//Route Penulis
-// Route::get('/penulis', [PenulisController::class, 'showData'])->name('penulis.index')->middleware('auth');
-// Route::get('/penulis/edit/{id}', [PenulisController::class, 'edit'])->name('penulis.update')->middleware('auth');
-// Route::post('/penulis', [PenulisController::class, 'tambahData'])->name('penulis.tambah')->middleware('auth');
-// Route::put('/penulis/{id}', [PenulisController::class, 'editData'])->name('penulis.edit')->middleware('auth');
-// Route::delete('/penulis/{id}', [PenulisController::class, 'hapusData'])->name('penulis.hapus')->middleware('auth');
-
+// Route untuk mengakses halaman penulis
 Route::controller(PenulisController::class)->group(function () {
-    Route::get('/penulis', 'index')->name('penulis.index')->middleware('auth:petugas');
-    Route::get('/penulis/{id}/edit', 'edit')->name('penulis.update')->middleware('auth:petugas');
-    Route::post('/penulis', 'store')->name('penulis.store')->middleware('auth:petugas');
-    Route::put('/penulis/{id}', 'update')->name('penulis.edit')->middleware('auth:petugas');
-    Route::delete('/penulis/{id}', 'delete')->name('penulis.hapus')->middleware('auth:petugas');
-});
+    Route::get('/admin/penulis', 'index')->name('penulis.index'); // Menampilkan daftar penulis
+    Route::get('/admin/penulis/{id}/edit', 'edit')->name('penulis.update'); // Menampilkan form untuk mengubah data penulis dengan id tertentu
+    Route::post('/admin/penulis', 'store')->name('penulis.store'); // Menyimpan data penulis baru ke dalam database
+    Route::put('/admin/penulis/{id}', 'update')->name('penulis.edit'); // Mengubah data penulis dengan id tertentu di dalam database
+    Route::delete('/admin/penulis/{id}', 'delete')->name('penulis.hapus'); // Menghapus data penulis dengan id tertentu dari database
+})->middleware('auth:petugas');
 
-//Route Kategori
-// Route::get('/kategori', [KategoriController::class, 'showData'])->name('kategori.index')->middleware('auth');
-// Route::get('/kategori/edit/{id}', [KategoriController::class, 'edit'])->name('kategori.update')->middleware('auth');
-// Route::post('/kategori', [KategoriController::class, 'tambahData'])->name('kategori.tambah')->middleware('auth');
-// Route::put('/kategori/{id}', [KategoriController::class, 'editData'])->name('kategori.edit')->middleware('auth');
-// Route::delete('/kategori/{id}', [KategoriController::class, 'hapusData'])->name('kategori.hapus')->middleware('auth');
-
+// Route untuk mengakses halaman kategori
 Route::controller(KategoriController::class)->group(function () {
-    Route::get('/kategori', 'index')->name('kategori.index')->middleware('auth:petugas');
-    Route::get('/kategori/{id}/edit', 'edit')->name('kategori.update')->middleware('auth:petugas');
-    Route::post('/kategori', 'store')->name('kategori.store')->middleware('auth:petugas');
-    Route::put('/kategori/{id}', 'update')->name('kategori.edit')->middleware('auth:petugas');
-    Route::delete('/kategori/{id}', 'delete')->name('kategori.hapus')->middleware('auth:petugas');
-});
+    Route::get('/admin/kategori', 'index')->name('kategori.index'); // Menampilkan daftar kategori buku
+    Route::get('/admin/kategori/{id}/edit', 'edit')->name('kategori.update'); // Menampilkan form untuk mengubah data kategori buku dengan id tertentu
+    Route::post('/admin/kategori', 'store')->name('kategori.store'); // Menyimpan data kategori buku baru ke dalam database
+    Route::put('/admin/kategori/{id}', 'update')->name('kategori.edit'); // Mengubah data kategori buku dengan id tertentu di dalam database
+    Route::delete('/admin/kategori/{id}', 'delete')->name('kategori.hapus'); // Menghapus data kategori buku dengan id tertentu dari database
+})->middleware('auth:petugas');
 
-
+// Route untuk mengelola peminjaman buku
 Route::controller(PeminjamanController::class)->group(function () {
-    Route::get('/peminjaman', 'index')->name('pinjam.index')->middleware('auth:petugas');
-    Route::get('/peminjaman/tambahdata', 'create')->name('pinjam.create')->middleware('auth:petugas');
-    Route::post('/peminjaman', 'store')->name('pinjam.store')->middleware('auth:petugas');
-});
+    Route::get('/admin/peminjaman', 'index')->name('peminjaman.index'); // Menampilkan halaman index peminjaman
+    Route::get('/admin/peminjaman/tambahdata', 'create')->name('peminjaman.create'); // Menampilkan halaman form tambah peminjaman
+    Route::get('/admin/peminjaman/{id}/edit', 'edit')->name('peminjaman.update'); // Menampilkan halaman form edit peminjaman
+    Route::post('/admin/peminjaman/tambahdata', 'store')->name('peminjaman.store'); // Menambahkan data peminjaman
+    Route::put('/admin/peminjaman/{id}', 'update')->name('peminjaman.edit'); // Mengupdate data peminjaman
+    Route::delete('/admin/peminjaman/{id}', 'delete')->name('peminjaman.hapus'); // Menghapus data peminjaman
+    Route::post('/admin/peminjaman/laporan/', 'generatePdf')->name('laporan.peminjaman'); // Membuat laporan peminjaman dalam bentuk PDF
+})->middleware('auth:petugas');
 
 
-
-
-//Route Login
-// Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-// Route::post('/login', [LoginController::class, 'login']);
-// Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
-
+// Menangani authentication, termasuk login dan logout
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
     Route::post('/login', 'login');
@@ -111,7 +114,3 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(LogoutController::class)->group(function () {
     Route::post('/logout', 'logout')->name('logout');
 });
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth']);

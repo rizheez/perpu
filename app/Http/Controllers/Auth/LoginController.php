@@ -8,7 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-
+    /**
+     * Menampilkan form login untuk petugas.
+     *
+     * Jika petugas sudah login, redirect ke halaman dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function showLoginForm()
     {
         if (Auth::guard('petugas')->check()) {
@@ -18,6 +24,12 @@ class LoginController extends Controller
         return view('admin.login');
     }
 
+    /**
+     * Memproses login petugas.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -28,11 +40,9 @@ class LoginController extends Controller
         if (Auth::guard('petugas')->attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended();
+            return redirect()->route('dashboard');
         }
 
-        return back()->withErrors([
-            'username' => 'The provided credentials do not match our records.',
-        ]);
+        return redirect()->back()->with('error', 'Username atau Password salah!');
     }
 }

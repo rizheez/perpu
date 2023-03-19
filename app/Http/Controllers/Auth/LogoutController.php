@@ -8,15 +8,21 @@ use Illuminate\Support\Facades\Auth;
 
 class LogoutController extends Controller
 {
-    //
+    // Metode logout untuk menghapus sesi pengguna
     public function logout(Request $request)
     {
-        Auth::logout();
+        // Jika pengguna sudah masuk, logout pengguna
+        if (Auth::guard('petugas')->check()) {
+            Auth::guard('petugas')->logout();
+        }
 
+        // Invalidasi sesi saat ini
         $request->session()->invalidate();
 
+        // Regenerasi token sesi
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        // Arahkan pengguna ke halaman beranda
+        return redirect('/');
     }
 }

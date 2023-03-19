@@ -7,6 +7,8 @@
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="{{ asset('assets/img/book.ico') }}" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
     @stack('css')
 
@@ -98,34 +100,21 @@
     <!-- Chart JS -->
     <script src="{{ asset('assets/js/plugin/chart.js/chart.min.js') }}"></script>
 
-    <!-- jQuery Sparkline -->
-    <script src="{{ asset('assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js') }}"></script>
-
-    <!-- Chart Circle -->
-    <script src="{{ asset('assets/js/plugin/chart-circle/circles.min.js') }}"></script>
-
     <!-- Datatables -->
     <script src="{{ asset('assets/js/plugin/datatables/datatables.min.js') }}"></script>
 
-    <!-- Bootstrap Notify -->
-    <script src="{{ asset('assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
-
     <!-- Bootstrap Toggle -->
     <script src="{{ asset('assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js') }}"></script>
-
-    <!-- jQuery Vector Maps -->
-    <script src="{{ asset('assets/js/plugin/jqvmap/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugin/jqvmap/maps/jquery.vmap.world.js') }}"></script>
-
-    <!-- Google Maps Plugin -->
-    <script src="{{ asset('assets/js/plugin/gmaps/gmaps.js') }}"></script>
-
     <!-- Sweet Alert -->
     <script src="{{ asset('assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
 
 
     <!-- Azzara JS -->
     <script src="{{ asset('assets/js/ready.min.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+
 
 
 

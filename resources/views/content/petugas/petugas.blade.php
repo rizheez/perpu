@@ -393,7 +393,7 @@
                         data: 'profile',
                         name: 'profile',
                         render: function(data, type, full, meta) {
-                            return '<img class="rounded mx-auto d-block" src="{{ asset('storage/profile') }}/' +
+                            return '<img class="rounded mx-auto d-block" src="{{ asset('storage/petugas/profile') }}/' +
                                 data + '" width="50">';
                         },
                         orderable: false

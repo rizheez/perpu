@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         <div class="card-action d-flex justify-content-end">
-                            <button type="submit" class="btn btn-success mr-2">Submit</button>
+                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
                             <button type="reset" class="btn btn-danger">Cancel</button>
                         </div>
                     </form>

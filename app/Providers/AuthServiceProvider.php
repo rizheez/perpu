@@ -3,6 +3,11 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+
+use App\Models\Admin;
+use App\Models\Petugas;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -21,6 +26,12 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
+
+        $this->registerPolicies();
+
+        Gate::define('isAdmin', function (Petugas $petugas) {
+            return $petugas->role === 'admin';
+        });
     }
 }

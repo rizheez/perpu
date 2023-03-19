@@ -14,7 +14,6 @@
         }
     </style>
 
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -34,14 +33,9 @@
                             <i class="flaticon-right-arrow"></i>
                         </li>
                         <li class="nav-item">
-                            <p>Master Data</p>
+                            <p>Peminjaman</p>
                         </li>
-                        <li class="separator">
-                            <i class="flaticon-right-arrow"></i>
-                        </li>
-                        <li class="nav-item">
-                            <p>Buku</p>
-                        </li>
+
                     </ul>
                 </div>
                 <div class="row">
@@ -51,83 +45,28 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex align-items-center">
-                                    <h4 class="card-title">Data Buku</h4>
-                                    <a href="{{ route('pinjam.create') }}" class="btn btn-primary btn-round ml-auto">
+                                    <h4 class="page-title text-uppercase ml-2">Data Peminjaman</h4>
+                                    <a href="{{ route('peminjaman.create') }}" class="btn btn-primary ml-auto">
                                         <i class="fa fa-plus"></i>
-                                        Add Row
+                                        Tambah Data
                                     </a>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <!-- Modal -->
-                                {{-- <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header no-bd">
-                                                <h5 class="modal-title">
-                                                    <span class="fw-mediumbold">
-                                                        New</span>
-                                                    <span class="fw-light">
-                                                        Row
-                                                    </span>
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p class="small">Create a new row using this form, make sure you fill them
-                                                    all</p>
-                                                <form>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="form-group form-group-default">
-                                                                <label>Name</label>
-                                                                <input id="addName" type="text" class="form-control"
-                                                                    placeholder="fill name">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 pr-0">
-                                                            <div class="form-group form-group-default">
-                                                                <label>Position</label>
-                                                                <input id="addPosition" type="text" class="form-control"
-                                                                    placeholder="fill position">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group form-group-default">
-                                                                <label>Office</label>
-                                                                <input id="addOffice" type="text" class="form-control"
-                                                                    placeholder="fill office">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer no-bd">
-                                                <button type="button" id="addRowButton"
-                                                    class="btn btn-primary">Add</button>
-                                                <button type="button" class="btn btn-danger"
-                                                    data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
 
+                            <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="table-buku" class="display table table-striped table-hover">
+                                    <table id="table-peminjaman" class="display table table-striped table-hover">
                                         <thead class="text-uppercase">
                                             <tr class="text-center">
                                                 <th>NO</th>
                                                 <th>ID</th>
-                                                <th>Judul</th>
-                                                <th>Penulis</th>
-                                                <th>Kategori</th>
-                                                <th>Penerbit</th>
-                                                <th>Tahun Terbit</th>
-                                                <th>Stok</th>
-                                                <th>Gambar</th>
+                                                <th>Buku</th>
+                                                <th>anggota</th>
+                                                <th>tanggal peminjaman</th>
+                                                <th>tanggal pengembalian</th>
+                                                <th>denda</th>
+                                                <th>petugas</th>
+                                                <th>Status</th>
                                                 <th style="width: 10%">Action</th>
                                             </tr>
                                         </thead>
@@ -135,13 +74,13 @@
                                             <tr class="text-center">
                                                 <th>NO</th>
                                                 <th>ID</th>
-                                                <th>Judul</th>
-                                                <th>Penulis</th>
-                                                <th>Kategori</th>
-                                                <th>Penerbit</th>
-                                                <th>Tahun Terbit</th>
-                                                <th>Stok</th>
-                                                <th>Gambar</th>
+                                                <th>Buku</th>
+                                                <th>anggota</th>
+                                                <th>tanggal peminjaman</th>
+                                                <th>tanggal pengembalian</th>
+                                                <th>denda</th>
+                                                <th>petugas</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </tfoot>
@@ -152,16 +91,87 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="page-title ml-2">{{ __('Download Laporan Peminjaman') }}</h3>
+
+                                <div class="card-body">
+                                    <form method="POST" action="{{ route('laporan.peminjaman') }}">
+                                        @csrf
+                                        @if (session('error'))
+                                            <div class="alert alert-danger">
+                                                {{ session('error') }}
+                                            </div>
+                                        @endif
+                                        <div class="form-group row">
+                                            <label for="bulan"
+                                                class="col-md-4 col-form-label text-md-right">{{ __('Bulan') }}</label>
+
+                                            <div class="col-md-6">
+                                                <select id="bulan" name="bulan"
+                                                    class="form-control @error('bulan') is-invalid @enderror">
+                                                    <option value="" selected disabled>-- Pilih Bulan --</option>
+                                                    <option value="01">Januari</option>
+                                                    <option value="02">Februari</option>
+                                                    <option value="03">Maret</option>
+                                                    <option value="04">April</option>
+                                                    <option value="05">Mei</option>
+                                                    <option value="06">Juni</option>
+                                                    <option value="07">Juli</option>
+                                                    <option value="08">Agustus</option>
+                                                    <option value="09">September</option>
+                                                    <option value="10">Oktober</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">Desember</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="tahun"
+                                                class="col-md-4 col-form-label text-md-right">{{ __('Tahun') }}</label>
+
+                                            <div class="col-md-6">
+                                                <select id="tahun" name="tahun"
+                                                    class="form-control @error('tahun') is-invalid @enderror">
+                                                    <option value="" selected disabled>-- Pilih Tahun --</option>
+                                                    @for ($i = 2023; $i <= 2025; $i++)
+                                                        <option value="{{ $i }}">{{ $i }}</option>
+                                                    @endfor
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mb-0">
+                                            <div class="col-md-6 offset-md-4">
+                                                <button type="submit" class="btn btn-primary">
+                                                    {{ __('Download Laporan') }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 @endsection
 
 @push('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/id.min.js"></script>
+
+
     <script>
         $(document).ready(function() {
-            const table = $('#table-buku').DataTable({
+            moment.locale('id');
+            const table = $('#table-peminjaman').DataTable({
                 responsive: true,
                 autoWidth: false,
                 processing: true,
@@ -169,7 +179,7 @@
                 order: [
                     [1, 'asc']
                 ],
-                ajax: "{{ route('buku.index') }}",
+                ajax: "{{ route('peminjaman.index') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -182,43 +192,74 @@
                         name: 'id',
                     },
                     {
-                        data: 'judul',
-                        name: 'judul'
+                        data: 'buku.judul',
+                        name: 'buku.judul'
                     },
                     {
-                        data: 'penulis.nama',
-                        name: 'penulis.nama'
+                        data: 'anggota.nama',
+                        name: 'anggota.nama'
                     },
                     {
-                        data: 'kategori.nama',
-                        name: 'kategori.nama'
-                    },
-                    {
-                        data: 'penerbit',
-                        name: 'penerbit',
-                        orderable: false
-                    },
-                    {
-                        data: 'tahun_terbit',
-                        name: 'tahun_terbit'
-                    },
-                    {
-                        data: 'stok',
-                        name: 'stok',
-                        orderable: false
-                    },
-                    {
-                        data: 'gambar',
-                        name: 'gambar',
-                        render: function(data, type, full, meta) {
-                            return '<img class="rounded mx-auto d-block" src="{{ asset('storage/') }}/' +
-                                data + '" width="50">';
+                        data: 'tanggal_peminjaman',
+                        name: 'tanggal_peminjaman',
+                        render: function(data) {
+                            if (data) {
+                                return moment(data).format("DD MMMM YYYY");
+                            } else {
+                                return '-';
+                            }
                         },
                         orderable: false
                     },
                     {
+                        data: 'tanggal_pengembalian',
+                        name: 'tanggal_pengembalian',
+                        render: function(data) {
+                            if (data) {
+                                return moment(data).format("DD MMMM YYYY");
+                            } else {
+                                return '-';
+                            }
+                        },
+                        orderable: false
+                    },
+                    {
+                        data: 'denda',
+                        name: 'denda',
+                        render: function(data) {
+                            if (data || data === 0) {
+                                return 'Rp.' + data;
+                            } else {
+                                return '-';
+                            }
+                        },
+                    },
+                    {
+                        data: 'petugas.nama',
+                        name: 'petugas.nama',
+                        orderable: false
+                    },
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            if (!row.tanggal_pengembalian) {
+                                return '<span class="badge bg-warning font-weight-bold text-white">Sedang Dipinjam</span>';
+                            } else {
+                                return '<span class="badge bg-success font-weight-bold text-white">Sudah Dikembalikan</span>';
+                            }
+                        },
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {
                         data: 'action',
                         name: 'action',
+                        render: function(data, type, row) {
+                            if (row.tanggal_pengembalian) {
+                                return '<i class="bi bi-check-lg"></i>';
+                            }
+                            return data
+                        },
                         orderable: false,
                         searchable: false,
                     },
@@ -232,7 +273,7 @@
                 }
             });
 
-            $('#table-buku').on('click', '.delete', function(event) {
+            $('#table-peminjaman').on('click', '.delete', function(event) {
                 event.preventDefault();
                 var id = $(this).data('id');
                 swal({

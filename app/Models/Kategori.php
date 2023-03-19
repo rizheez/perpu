@@ -10,7 +10,7 @@ class Kategori extends Model
     use HasFactory;
 
     protected $table = 'kategori';
-    protected $guarded = ['id'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $primaryKey = 'id';
     public $incrementing = false;

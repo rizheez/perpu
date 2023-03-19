@@ -14,13 +14,37 @@ class Petugas extends Model
 
     protected $primaryKey = 'id';
     public $incrementing = false;
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($petugas) {
-            $petugas->id = 'ptg' . str_pad(Petugas::count() + 1, 3, '0', STR_PAD_LEFT);
+            // Ambil ID terakhir dari petugas yang masih tersimpan di database
+            $lastPetugas = Petugas::orderBy('id', 'desc')->first();
+            $lastId = $lastPetugas ? intval(substr($lastPetugas->id, 3)) : 0;
+
+            // Tambahkan 1 ke ID terakhir untuk membuat ID yang baru
+            $newId = $lastId + 1;
+
+            // Set ID petugas baru dengan format ptg001 dst
+            $petugas->id = 'ptg' . str_pad($newId, 3, '0', STR_PAD_LEFT);
         });
+    }
+
+    public function peminjaman()
+    {
+        return $this->hasMany(Peminjaman::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin === 1;
+    }
+
+    public function hasRole($roleName)
+    {
+        return $this->role == $roleName; // sample implementation only
     }
 }

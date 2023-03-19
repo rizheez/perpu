@@ -9,9 +9,11 @@ use Yajra\DataTables\Facades\DataTables;
 
 class KategoriController extends Controller
 {
+    // method untuk menampilkan data Kategori
     public function index(Request $request)
     {
         $data = Kategori::all();
+        // cek apakah request ajax
         if ($request->ajax()) {
 
             $datatable = Datatables::of($data);
@@ -19,20 +21,21 @@ class KategoriController extends Controller
 
             return $datatable->make(true);
         }
-        return view('content.kategori', ['data' => $data]);
+        // jika bukan request ajax, maka tampilkan view anggota
+        return view('content.informasi.kategori.kategori', ['data' => $data]);
     }
 
 
     public function showData()
     {
-        // $penulis = Penulis::all();
-        // return Datatables::of($penulis)->make(true);
         $kategori = Kategori::all();
-        return view('content.kategori', ['kategori' => $kategori]);
+        return view('content.informasi.kategori.kategori', ['kategori' => $kategori]);
     }
 
+    // method untuk menyimpan data kategori
     public function store(Request $request)
     {
+        //validasi data yang telah dimasukkan
         $request->validate([
             'nama' => 'required|max:255',
 
@@ -45,14 +48,14 @@ class KategoriController extends Controller
         return response()->json(['success' => true]);
     }
 
-
+    // method untuk menampilkan form edit kategori
     public function edit($id)
     {
         $kategori = Kategori::findOrFail($id);
         return response()->json(['result' => $kategori]);
     }
 
-
+    // method untuk mengupdate data kategori
     public function update(Request $request, $id)
     {
 
@@ -60,10 +63,6 @@ class KategoriController extends Controller
             'nama' => 'required|string|max:255',
         ]);
 
-
-        // $kategori = Kategori::find($id);
-        // $kategori->nama = $request->nama;
-        // $kategori->save();
 
         $kategori = Kategori::find($id);
         $nama_asli = $kategori->nama; // Ambil nilai asli dari database
@@ -78,7 +77,7 @@ class KategoriController extends Controller
         return response()->json(['success' => true, 'message' => 'Success']);
     }
 
-
+    // method untuk menghapus data kategori
     public function delete($id)
     {
         $kategori = Kategori::findOrFail($id);

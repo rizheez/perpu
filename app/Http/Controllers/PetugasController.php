@@ -12,6 +12,7 @@ class PetugasController extends Controller
 {
     public function index(Request $request)
     {
+
         $data = Petugas::all();
         if ($request->ajax()) {
             return datatables()->of($data)
@@ -58,7 +59,7 @@ class PetugasController extends Controller
         if ($request->hasFile('profile')) {
             $gambar = $request->file('profile');
             $namaGambar = time() . '_' . $gambar->getClientOriginalName();
-            $path = $gambar->storeAs('public/profile', $namaGambar);
+            $path = $gambar->storeAs('public/petugas/profile', $namaGambar);
             $petugas->profile = $namaGambar;
         }
 
@@ -98,11 +99,11 @@ class PetugasController extends Controller
         $petugas->password = bcrypt($request->password);
         if ($request->hasFile('profile')) {
             // Hapus gambar lama
-            Storage::delete('public/petugas' . $petugas->profile);
+            Storage::delete('public/petugas/profile' . $petugas->profile);
 
             $gambar = $request->file('profile');
             $namaGambar = time() . '_' . $gambar->getClientOriginalName();
-            $path = $gambar->storeAs('public/petugas', $namaGambar);
+            $path = $gambar->storeAs('public/petugas/profile', $namaGambar);
             $petugas->profile = $namaGambar;
         }
         $petugas->save();
@@ -115,10 +116,45 @@ class PetugasController extends Controller
         $petugas = Petugas::findOrFail($id);
         //hapus file gambar di stograge
         if ($petugas->profile != null) {
-            Storage::delete('public/profile' . $petugas->gambar);
+            Storage::delete('public/petugas/profile' . $petugas->gambar);
         }
         $petugas->delete();
 
         return response()->json(['success' => true]);
+    }
+
+    public function account($id)
+    {
+        $data = Petugas::find($id);
+
+        return view('content.petugas.setting', compact('data'));
+    }
+
+    public function editAccount(Request $request, $id)
+    {
+        $request->validate([
+            'username' => 'required|string|max:50',
+            'password' => 'nullable|max:100',
+            'profile' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        $petugas = Petugas::find($id);
+
+        $petugas->username = $request->username;
+        if ($request->password != null) {
+            $petugas->password = bcrypt($request->password);
+        }
+        if ($request->hasFile('profile')) {
+            // Hapus gambar lama
+            Storage::delete('public/petugas/profile' . $petugas->profile);
+
+            $gambar = $request->file('profile');
+            $namaGambar = time() . '_' . $gambar->getClientOriginalName();
+            $path = $gambar->storeAs('public/petugas/profile', $namaGambar);
+            $petugas->profile = $namaGambar;
+        }
+        $petugas->save();
+
+        return redirect()->back()->with('success', 'Akun berhasil diedit');
     }
 }

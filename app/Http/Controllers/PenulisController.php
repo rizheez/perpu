@@ -25,7 +25,7 @@ class PenulisController extends Controller
             // });
             return $datatable->make(true);
         }
-        return view('content.penulis', ['data' => $data]);
+        return view('content.informasi.penulis.penulis', ['data' => $data]);
     }
 
 

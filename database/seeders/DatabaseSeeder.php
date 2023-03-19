@@ -3,11 +3,18 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Buku;
+use App\Models\Anggota;
 use App\Models\Penulis;
 use App\Models\Petugas;
+use App\Models\Kategori;
 use App\Models\UserPetugas;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Database\Factories\AnggotaFactory;
+use Database\Factories\KategoriFactory;
+use Database\Factories\PenulisFactory;
+use Database\Factories\BukuFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,9 +25,9 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::create([
+        // \App\Models\Admin::create([
         //     'name' => 'ijul',
-        //     'username' => 'ijul123',
+        //     'username' => 'iju2',
         //     'email' => 'ijul@gmail.com',
         //     'password' => bcrypt('12345')
         // ]);
@@ -35,14 +42,34 @@ class DatabaseSeeder extends Seeder
         //     'username' => 'ijul123',
         //     'password' => bcrypt('12345')
         // ]);
+        // Petugas::create([
+        //     'nama' => 'alu',
+        //     'alamat' => 'jalan rambutan',
+        //     'telepon' => '081654210423',
+        //     'email' => 'alu@gmail.com',
+        //     'username' => 'alu1',
+        //     'password' => bcrypt('12345')
+        // ]);
+
         Petugas::create([
-            'nama' => 'alu',
+            'nama' => 'aluezz',
             'alamat' => 'jalan rambutan',
             'telepon' => '081654210423',
-            'email' => 'alu@gmail.com',
-            'username' => 'alu1',
-            'password' => bcrypt('12345')
+            'email' => 'al22aeu@gmail.com',
+            'username' => 'alu11',
+            'password' => bcrypt('12345'),
+            'is_admin' => true,
+            'role' => 'admin'
         ]);
+
+        // Kategori::factory()->count(20)->create();
+
+        // Penulis::factory()->count(20)->create();
+
+        // Buku::factory()->count(20)->create();
+
+        // Anggota::factory()->count(20)->create();
+
 
         // Penulis::create([
         //     'nama' => 'ijul',

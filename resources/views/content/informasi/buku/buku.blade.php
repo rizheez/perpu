@@ -58,10 +58,10 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex align-items-center">
-                                    <h4 class="card-title">Data Buku</h4>
-                                    <a href="{{ route('buku.create') }}" class="btn btn-primary btn-round ml-auto">
+                                    <h4 class="page-title ml-2 text-uppercase">Data Buku</h4>
+                                    <a href="{{ route('buku.create') }}" class="btn btn-primary ml-auto">
                                         <i class="fa fa-plus"></i>
-                                        Add Row
+                                        Tambah Data
                                     </a>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                                                 <th>Penerbit</th>
                                                 <th>Tahun Terbit</th>
                                                 <th>Stok</th>
-                                                <th>Gambar</th>
+                                                <th>Sampul Buku</th>
                                                 <th style="width: 10%">Action</th>
                                             </tr>
                                         </thead>
@@ -148,7 +148,7 @@
                                                 <th>Penerbit</th>
                                                 <th>Tahun Terbit</th>
                                                 <th>Stok</th>
-                                                <th>Gambar</th>
+                                                <th>Sampul Buku</th>
                                                 <th>Action</th>
                                             </tr>
                                         </tfoot>
@@ -399,8 +399,14 @@
                         data: 'gambar',
                         name: 'gambar',
                         render: function(data, type, full, meta) {
-                            return '<img class="rounded mx-auto d-block" src="{{ asset('storage/') }}/' +
-                                data + '" width="50">';
+                            if (data === null) {
+                                data = 'Belum Diupload';
+                            } else {
+                                data =
+                                    '<img class="rounded mx-auto d-block" src="{{ asset('storage/buku/gambar') }}/' +
+                                    data + '" width="100">';
+                            }
+                            return data;
                         },
                         orderable: false
                     },

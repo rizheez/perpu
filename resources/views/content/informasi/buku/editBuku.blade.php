@@ -38,7 +38,8 @@
                     <div class="card-header">
                         <div class="card-title">Edit Data Buku</div>
                     </div>
-                    <form action="{{ route('buku.edit', $data->id) }}" method="POST" enctype="multipart/form-data">
+                    <form id="form-edit" action="{{ route('buku.edit', $data->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card-body">
@@ -118,5 +119,25 @@
             }
             reader.readAsDataURL(event.target.files[0]);
         }
+    </script>
+
+    <script>
+        document.querySelector('#form-edit').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+
+            swal({
+                icon: 'success',
+                title: 'Success',
+                text: 'Data berhasil disimpan',
+                button: {
+                    className: 'btn btn-primary'
+                }
+            }).then((result) => {
+                if (result == true) {
+                    e.target.submit();
+                }
+            })
+        });
     </script>
 @endpush

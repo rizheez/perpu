@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('alamat', 100);
             $table->char('telepon', 13);
             $table->string('email', 100);
+            $table->string('profile')->nullable();
             $table->timestamps();
         });
     }
