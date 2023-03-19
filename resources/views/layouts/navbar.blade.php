@@ -28,6 +28,9 @@
                                 <div class="u-text">
                                     <h4 class="text-uppercase">{{ Auth::guard('petugas')->user()->nama }}</h4>
                                     <p class="text-muted">Petugas</p>
+                                    <p class="text-muted"><i
+                                            class="btn-success btn-link btn-rounded bi bi-circle-fill"></i>
+                                        ONLINE</p>
                                 </div>
 
                             </div>
