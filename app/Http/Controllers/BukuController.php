@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\Penulis;
 use App\Models\Kategori;
+use App\Models\Penerbit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,7 +14,7 @@ class BukuController extends Controller
     // method untuk menampilkan data buku
     public function index(Request $request)
     {
-        $data = Buku::with(['penulis', 'kategori'])->get();
+        $data = Buku::with(['penerbit', 'kategori'])->get();
         if ($request->ajax()) {
             return datatables()->of($data)
                 ->addIndexColumn()
@@ -29,10 +30,10 @@ class BukuController extends Controller
     // method untuk menampilkan form tambah anggota
     public function create()
     {
-        $penulis = Penulis::all();
+        $penerbit = Penerbit::all();
         $kategori = Kategori::all();
 
-        return view('content.informasi.buku.formTambahBuku', compact('penulis', 'kategori'));
+        return view('content.informasi.buku.formTambahBuku', compact('penerbit', 'kategori'));
     }
 
     // method untuk menyimpan data anggota
@@ -41,9 +42,9 @@ class BukuController extends Controller
         //validasi data yang telah dimasukkan
         $request->validate([
             'judul' => 'required|string|max:100',
-            'penulis_id' => 'required|exists:penulis,id',
+            'penulis' => 'required|string|max:255',
             'kategori_id' => 'required|exists:kategori,id',
-            'penerbit' => 'required|string|max:255',
+            'penerbit_id' => 'required|exists:penerbit,id',
             'tahun_terbit' => 'required|string|max:4',
             'stok' => 'required|integer',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
@@ -52,9 +53,9 @@ class BukuController extends Controller
         // membuat instance anggota dan mengisi datanya dari input user
         $buku = new Buku;
         $buku->judul = $request->judul;
-        $buku->penulis_id = $request->penulis_id;
+        $buku->penulis = $request->penulis;
         $buku->kategori_id = $request->kategori_id;
-        $buku->penerbit = $request->penerbit;
+        $buku->penerbit_id = $request->penerbit_id;
         $buku->tahun_terbit = $request->tahun_terbit;
         $buku->stok = $request->stok;
 
@@ -77,9 +78,9 @@ class BukuController extends Controller
     public function edit($id)
     {
         $data = Buku::find($id);
-        $penulis = Penulis::all();
+        $penerbit = Penerbit::all();
         $kategori = Kategori::all();
-        return view('content.informasi.buku.editBuku', compact('data', 'penulis', 'kategori'));
+        return view('content.informasi.buku.editBuku', compact('data', 'penerbit', 'kategori'));
     }
 
     // method untuk mengupdate data anggota
@@ -89,9 +90,9 @@ class BukuController extends Controller
         //validasi data yang telah dimasukkan
         $request->validate([
             'judul' => 'required|string|max:100',
-            'penulis_id' => 'required|exists:penulis,id',
+            'penulis' => 'required',
             'kategori_id' => 'required|exists:kategori,id',
-            'penerbit' => 'required|string|max:255',
+            'penerbit_id' => 'required|string|max:255|exists:penerbit,id',
             'tahun_terbit' => 'required|string|max:4',
             'stok' => 'required|integer',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:4048'
@@ -101,9 +102,9 @@ class BukuController extends Controller
         $buku = Buku::find($id);
         // mengisi data anggota dengan input user
         $buku->judul = $request->judul;
-        $buku->penulis_id = $request->penulis_id;
+        $buku->penulis = $request->penulis;
         $buku->kategori_id = $request->kategori_id;
-        $buku->penerbit = $request->penerbit;
+        $buku->penerbit_id = $request->penerbit_id;
         $buku->tahun_terbit = $request->tahun_terbit;
         $buku->stok = $request->stok;
         if ($request->hasFile('gambar')) {
@@ -121,6 +122,7 @@ class BukuController extends Controller
         return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan');
     }
 
+    // Fungsi untuk menghapus data anggota
     public function delete($id)
     {
         $buku = Buku::findOrFail($id);

@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('penulis', function (Blueprint $table) {
+        Schema::create('penerbit', function (Blueprint $table) {
             $table->id();
             $table->string('nama', 100);
-            $table->string('email', 100);
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penulis');
+        Schema::dropIfExists('penerbit');
     }
 };

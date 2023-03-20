@@ -32,7 +32,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <div class="page-title text-uppercase ml-2">Tambah Data Buku</div>
+                        <div class="page-title text-uppercase ml-2">Tambah Data Peminjaman</div>
                     </div>
                     <form id="form-peminjaman" action="{{ route('peminjaman.store') }}" method="POST"
                         enctype="multipart/form-data">
@@ -40,8 +40,9 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="buku_id">Buku</label>
-                                <select class="form-control selectpicker" data-live-search="true" id="penulis"
-                                    name="buku_id">
+                                <select class="form-control selectpicker border border-muted" data-live-search="true"
+                                    id="penulis" name="buku_id">
+                                    <option disabled selected>--Pilih Buku--</option>
                                     @foreach ($buku as $id => $judul)
                                         <option data-tokens="{{ $id }}" value="{{ $id }}">
                                             {{ $judul }}</option>
@@ -50,8 +51,9 @@
                             </div>
                             <div class="form-group pt-2">
                                 <label for="anggota_id">Anggota</label>
-                                <select class="form-control selectpicker" data-live-search="true" id="anggota"
-                                    name="anggota_id">
+                                <select class="form-control selectpicker border border-muted" data-live-search="true"
+                                    id="anggota" name="anggota_id">
+                                    <option disabled selected>--Pilih Anggota--</option>
                                     @foreach ($anggota as $id => $nama)
                                         <option data-tokens="{{ $id }}" value="{{ $id }}">
                                             {{ $nama }}</option>

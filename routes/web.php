@@ -1,14 +1,14 @@
 <?php
 
-use App\Models\Penulis;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AnggotaController;
-use App\Http\Controllers\PenulisController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\PenerbitController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PeminjamanController;
@@ -75,13 +75,13 @@ Route::controller(AnggotaController::class)->group(function () {
 })->middleware('auth:petugas');
 
 
-// Route untuk mengakses halaman penulis
-Route::controller(PenulisController::class)->group(function () {
-    Route::get('/admin/penulis', 'index')->name('penulis.index'); // Menampilkan daftar penulis
-    Route::get('/admin/penulis/{id}/edit', 'edit')->name('penulis.update'); // Menampilkan form untuk mengubah data penulis dengan id tertentu
-    Route::post('/admin/penulis', 'store')->name('penulis.store'); // Menyimpan data penulis baru ke dalam database
-    Route::put('/admin/penulis/{id}', 'update')->name('penulis.edit'); // Mengubah data penulis dengan id tertentu di dalam database
-    Route::delete('/admin/penulis/{id}', 'delete')->name('penulis.hapus'); // Menghapus data penulis dengan id tertentu dari database
+// Route untuk mengakses halaman penerbit
+Route::controller(PenerbitController::class)->group(function () {
+    Route::get('/admin/penerbit', 'index')->name('penerbit.index'); // Menampilkan daftar penerbit
+    Route::get('/admin/penerbit/{id}/edit', 'edit')->name('penerbit.update'); // Menampilkan form untuk mengubah data penerbit dengan id tertentu
+    Route::post('/admin/penerbit', 'store')->name('penerbit.store'); // Menyimpan data penerbit baru ke dalam database
+    Route::put('/admin/penerbit/{id}', 'update')->name('penerbit.edit'); // Mengubah data penerbit dengan id tertentu di dalam database
+    Route::delete('/admin/penerbit/{id}', 'delete')->name('penerbit.hapus'); // Menghapus data penerbit dengan id tertentu dari database
 })->middleware('auth:petugas');
 
 // Route untuk mengakses halaman kategori

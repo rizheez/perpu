@@ -493,7 +493,7 @@
                             error: function(data) {
                                 swal({
                                     title: 'Oops!',
-                                    text: 'Terjadi kesalahan saat menghapus data.',
+                                    text: 'Data Ini Berelasi Ke Data Buku, Data Tidak Bisa Dihapus!',
                                     icon: 'error'
                                 });
                             }

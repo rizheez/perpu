@@ -10,7 +10,7 @@ class HomeController extends Controller
     // method untuk menampilkan data
     public function index(Request $request)
     {
-        $data = Buku::with(['penulis', 'kategori'])->get();
+        $data = Buku::with(['penerbit', 'kategori'])->get();
         // cek apakah request ajax
         if ($request->ajax()) {
             return datatables()->of($data)

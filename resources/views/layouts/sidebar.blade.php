@@ -18,7 +18,7 @@
                     </span>
                     <h4 class="text-section">Data</h4>
                 </li>
-                <li class="nav-item {{ request()->routeIs(['buku.*', 'penulis.*', 'kategori.*']) ? 'active' : '' }}">
+                <li class="nav-item {{ request()->routeIs(['buku.*', 'penerbit.*', 'kategori.*']) ? 'active' : '' }}">
                     <a data-toggle="collapse" href="#base">
                         <i class="fas fa-layer-group"></i>
                         <p>Master Data</p>
@@ -32,10 +32,10 @@
                                     <span>Buku</span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ request()->routeIs('penulis.*') ? 'active' : '' }}">
-                                <a href="{{ route('penulis.index') }}">
+                            <li class="nav-item {{ request()->routeIs('penerbit.*') ? 'active' : '' }}">
+                                <a href="{{ route('penerbit.index') }}">
                                     <i class="fas fa-user"></i>
-                                    <span>Penulis</span>
+                                    <span>Penerbit</span>
                                 </a>
                             </li>
                             <li class="nav-item {{ request()->routeIs('kategori.*') ? 'active' : '' }}">

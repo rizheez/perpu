@@ -7,7 +7,7 @@
         <div class="content">
             <div class="page-inner">
                 <div class="page-header">
-                    <h4 class="page-title">Forms</h4>
+
                     <ul class="breadcrumbs ml-auto">
                         <li class="nav-home">
                             <a href="/">
@@ -18,13 +18,7 @@
                             <i class="flaticon-right-arrow"></i>
                         </li>
                         <li class="nav-item">
-                            <p>Master Data</p>
-                        </li>
-                        <li class="separator">
-                            <i class="flaticon-right-arrow"></i>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('buku.index') }}" style="font-size:14px">Buku</a>
+                            <p>Petugas</p>
                         </li>
                         <li class="separator">
                             <i class="flaticon-right-arrow"></i>
@@ -36,7 +30,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Edit Data Buku</div>
+                        <div class="text-upercase ml-2 page-title">Edit Data Petugas</div>
                     </div>
                     <form action="{{ route('petugas.edit', $data->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -87,7 +81,7 @@
                         </div>
                         <div class="card-action d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                            <button type="reset" class="btn btn-danger">Cancel</button>
+                            <a href="{{ route('petugas.index') }}" class="btn btn-danger">Cancel</a>
                         </div>
                     </form>
                 </div>

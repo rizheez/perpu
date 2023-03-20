@@ -49,18 +49,16 @@
                                     name="judul" value="{{ $data->judul }}">
                             </div>
                             <div class="form-group">
-                                <label for="penulis_id">Penulis</label>
-                                <select class="form-control" id="penulis" name="penulis_id">
-                                    @foreach ($penulis as $p)
-                                        <option value="{{ $p->id }}"
-                                            {{ $p->id == $data->penulis_id ? 'selected' : '' }}>
-                                            {{ $p->nama }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="penulis">Penulis</label>
+                                <input type="text" class="form-control" id="penulis" placeholder="Masukkan penulis"
+                                    name="penulis" value="{{ $data->penulis }}">
                             </div>
+
                             <div class="form-group pt-2">
                                 <label for="kategori_id">Kategori</label>
-                                <select class="form-control" id="kategori" name="kategori_id">
+                                <select class="form-control selectpicker border border-muted" data-live-search="true"
+                                    id="kategori" name="kategori_id">
+                                    <option disabled>-- Pilih Kategori --</option>
                                     @foreach ($kategori as $k)
                                         <option value="{{ $k->id }}"
                                             {{ $k->id == $data->penulis_id ? 'selected' : '' }}>
@@ -68,10 +66,18 @@
                                     @endforeach
                                 </select>
                             </div>
+
                             <div class="form-group">
-                                <label for="penerbit">Penerbit</label>
-                                <input type="text" class="form-control" id="penerbit" placeholder="Masukkan penerbit"
-                                    name="penerbit" value="{{ $data->penerbit }}">
+                                <label for="penerbit_id">Penerbit</label>
+                                <select class="form-control selectpicker border border-muted" data-dropup-auto="false"
+                                    data-live-search="true" id="penerbit" name="penerbit_id">
+                                    <option disabled>-- Pilih Penerbit --</option>
+                                    @foreach ($penerbit as $p)
+                                        <option value="{{ $p->id }}"
+                                            {{ $p->id == $data->penerbit_id ? 'selected' : '' }}>
+                                            {{ $p->nama }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="tahun_terbit">Tahun Terbit</label>
@@ -96,8 +102,8 @@
                             </div>
                         </div>
                         <div class="card-action d-flex justify-content-end">
-                            <button type="submit" class="btn btn-success mr-2">Submit</button>
-                            <button type="reset" class="btn btn-danger">Cancel</button>
+                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            <a href="{{ route('buku.index') }}" class="btn btn-danger">Cancel</a>
                         </div>
                     </form>
                 </div>

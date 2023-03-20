@@ -374,17 +374,17 @@
                         name: 'judul'
                     },
                     {
-                        data: 'penulis.nama',
-                        name: 'penulis.nama'
+                        data: 'penulis',
+                        name: 'penulis',
+                        orderable: false
                     },
                     {
                         data: 'kategori.nama',
                         name: 'kategori.nama'
                     },
                     {
-                        data: 'penerbit',
-                        name: 'penerbit',
-                        orderable: false
+                        data: 'penerbit.nama',
+                        name: 'penerbit.nama'
                     },
                     {
                         data: 'tahun_terbit',
@@ -447,7 +447,7 @@
                 }).then((willDelete) => {
                     if (willDelete) {
                         $.ajax({
-                            url: "/buku/" + id,
+                            url: "/admin/buku/" + id,
                             type: "DELETE",
                             dataType: 'json',
                             success: function(data) {

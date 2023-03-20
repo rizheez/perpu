@@ -146,6 +146,9 @@ class AnggotaController extends Controller
     {
         $anggota = Anggota::find($id);
 
+        if ($anggota->profile == null) {
+            return back()->with('fail', 'Foto Anggota Tidak Boleh Kosong!');
+        }
         // memuat gambar template kartu
         $template = Image::make(public_path('assets/img/kartu2.png'));
 
@@ -162,7 +165,7 @@ class AnggotaController extends Controller
             $font->color('#000000');
         });
 
-        $text = wordWrap($anggota->alamat, 30);
+        $text = wordWrap($anggota->alamat, 40);
         // menambahkan alamat anggota ke kartu
         $template->text($text, 220, 379, function ($font) {
             $font->file(public_path('font/Nunito-SemiBold.ttf'));

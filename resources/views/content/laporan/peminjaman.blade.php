@@ -37,7 +37,7 @@
 <body>
 
     <div class="text-center">
-        <h1 class="mb-4">Laporan Peminjaman Buku</h1>
+        <h1 class="mb-4">Laporan Peminjaman dan Pengembalian Buku</h1>
         <h3>Bulan {{ Illuminate\Support\Carbon::createFromFormat('m', $bulan)->isoFormat('MMMM') }} Tahun
             {{ Illuminate\Support\Carbon::createFromFormat('Y', $tahun)->isoFormat('Y') }}</h3>
     </div>

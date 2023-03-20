@@ -34,9 +34,9 @@ class Buku extends Model
         // });
     }
 
-    public function penulis()
+    public function penerbit()
     {
-        return $this->belongsTo(Penulis::class, 'penulis_id', 'id');
+        return $this->belongsTo(Penerbit::class, 'penerbit_id', 'id');
     }
 
     public function kategori()

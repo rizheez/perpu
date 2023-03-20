@@ -5,7 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Buku;
 use App\Models\Anggota;
-use App\Models\Penulis;
+use App\Models\Penerbit;
 use App\Models\Petugas;
 use App\Models\Kategori;
 use App\Models\UserPetugas;
@@ -52,23 +52,22 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         Petugas::create([
-            'nama' => 'aluezz',
-            'alamat' => 'jalan rambutan',
-            'telepon' => '081654210423',
-            'email' => 'al22aeu@gmail.com',
-            'username' => 'alu11',
-            'password' => bcrypt('12345'),
-            'is_admin' => true,
+            'nama' => 'admin',
+            'alamat' => '-',
+            'telepon' => '-',
+            'email' => 'admin@mail.com',
+            'username' => 'admin',
+            'password' => bcrypt('admin'),
             'role' => 'admin'
         ]);
 
-        // Kategori::factory()->count(20)->create();
+        Kategori::factory()->count(20)->create();
 
-        // Penulis::factory()->count(20)->create();
+        Penerbit::factory()->count(20)->create();
 
-        // Buku::factory()->count(20)->create();
+        Buku::factory()->count(20)->create();
 
-        // Anggota::factory()->count(20)->create();
+        Anggota::factory()->count(20)->create();
 
 
         // Penulis::create([

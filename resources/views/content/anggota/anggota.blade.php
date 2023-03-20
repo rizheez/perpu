@@ -60,7 +60,11 @@
                                 </div>
                             </div>
                             <div class="card-body">
-
+                                @if (session('fail'))
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ session('fail') }}
+                                    </div>
+                                @endif
                                 <div class="table-responsive">
                                     <table id="table-anggota" class="display table table-striped table-hover">
                                         <thead class="text-uppercase">
@@ -238,6 +242,7 @@
             });
 
 
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -281,8 +286,8 @@
                             error: function(data) {
                                 swal({
                                     title: 'Oops!',
-                                    text: data.message,
-                                    icon: 'error'
+                                    text: 'Data Berelasi Ke Data Peminjam, Data Tidak Bisa Dihapus!',
+                                    icon: 'error',
                                 });
                             }
                         });
