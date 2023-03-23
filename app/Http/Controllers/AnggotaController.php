@@ -159,7 +159,7 @@ class AnggotaController extends Controller
             $font->color('#000000');
         });
         // menambahkan nama anggota ke kartu
-        $template->text($anggota->nama, 220, 339, function ($font) {
+        $template->text(strtoupper($anggota->nama), 220, 339, function ($font) {
             $font->file(public_path('font/Nunito-SemiBold.ttf'));
             $font->size(25);
             $font->color('#000000');

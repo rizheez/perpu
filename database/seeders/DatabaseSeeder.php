@@ -61,13 +61,13 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin'
         ]);
 
-        Kategori::factory()->count(20)->create();
+        // Kategori::factory()->count(20)->create();
 
-        Penerbit::factory()->count(20)->create();
+        // Penerbit::factory()->count(20)->create();
 
-        Buku::factory()->count(20)->create();
+        // Buku::factory()->count(20)->create();
 
-        Anggota::factory()->count(20)->create();
+        // Anggota::factory()->count(20)->create();
 
 
         // Penulis::create([

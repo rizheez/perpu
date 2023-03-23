@@ -307,16 +307,16 @@
                         name: 'judul'
                     },
                     {
-                        data: 'penulis.nama',
-                        name: 'penulis.nama'
+                        data: 'penulis',
+                        name: 'penulis'
                     },
                     {
                         data: 'kategori.nama',
                         name: 'kategori.nama'
                     },
                     {
-                        data: 'penerbit',
-                        name: 'penerbit',
+                        data: 'penerbit.nama',
+                        name: 'penerbit.nama',
                         orderable: false
                     },
                     {
