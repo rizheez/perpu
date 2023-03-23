@@ -205,7 +205,7 @@ class AnggotaController extends Controller
         $template->save(public_path('cards/' . $anggota->id . '.png'));
 
         // mengembalikan respons beserta mendownload file kartu anggota
-        return response()->download(public_path('cards/' . $anggota->id . '.png'));
+        return response()->download(public_path('cards/' . $anggota->id . '.png'))->deleteFileAfterSend(true);
     }
 
     // Fungsi ini digunakan untuk menghasilkan laporan dalam format PDF berdasarkan bulan dan tahun yang diberikan oleh pengguna.
