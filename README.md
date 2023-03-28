@@ -39,4 +39,4 @@ Aplikasi ini dibangun menggunakan Laravel 10, sebuah framework PHP yang terkenal
 </ul>
 
 <h3>Lisensi :</h3>
-<p>Proyek ini dilisensikan di bawah lisensi MIT. Silakan baca berkas LICENSE untuk informasi lebih lanjut.</p>
+<p>Proyek ini dilisensikan di bawah lisensi MIT. Silakan baca berkas <a href="https://opensource.org/license/mit/">LICENSE</a> untuk informasi lebih lanjut.</p>
