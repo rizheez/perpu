@@ -39,7 +39,8 @@
                             <div class="form-group">
                                 <label for="tanggal_pengembalian">Tanggal Pengembalian</label>
                                 <input type="date" class="form-control" id="tanggal_pengembalian"
-                                    placeholder="Masukkan tanggal pengembalian" name="tanggal_pengembalian">
+                                    placeholder="Masukkan tanggal pengembalian" name="tanggal_pengembalian"
+                                    min="{{ $data->tanggal_peminjaman }}">
                             </div>
 
                         </div>

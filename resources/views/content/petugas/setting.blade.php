@@ -66,6 +66,12 @@
                                 <i class="bi bi-check-circle-fill"></i>
                             </p>
                         @endif
+                        @if (session('error'))
+                            <p class="alert alert-danger text-danger">
+                                {{ session('error') }}
+                                <i class="bi bi-x-circle-fill"></i>
+                            </p>
+                        @endif
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="username">Username</label>

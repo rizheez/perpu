@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\Petugas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -126,6 +127,15 @@ class PetugasController extends Controller
     public function account($id)
     {
         $data = Petugas::find($id);
+        $user = Auth::guard('petugas')->user()->id;
+
+        if ($data === null) {
+            return redirect()->back()->with('error', 'Data petugas tidak ditemukan');
+        }
+
+        if ($data->id !== $user) {
+            return redirect()->back()->with('error', 'Anda tidak diizinkan mengakses data petugas ini');
+        }
 
         return view('content.petugas.setting', compact('data'));
     }
