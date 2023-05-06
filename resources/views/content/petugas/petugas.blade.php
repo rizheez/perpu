@@ -72,6 +72,7 @@
                                                 <th>email</th>
                                                 <th>username</th>
                                                 <th>profile</th>
+                                                <th>role</th>
 
                                                 <th style="width: 10%">Action</th>
                                             </tr>
@@ -86,6 +87,7 @@
                                                 <th>email</th>
                                                 <th>username</th>
                                                 <th>profile</th>
+                                                <th>role</th>
                                                 <th>Action</th>
                                             </tr>
                                         </tfoot>
@@ -338,6 +340,10 @@
                                 data + '" width="50">';
                         },
                         orderable: false
+                    },
+                    {
+                        data: 'role',
+                        name: 'role',
                     },
                     {
                         data: 'action',

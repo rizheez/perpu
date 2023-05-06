@@ -45,7 +45,8 @@ class PetugasController extends Controller
             'email' => 'required|email|max:255',
             'username' => 'required|string|max:50|unique:petugas,username',
             'password' => 'required|max:100',
-            'profile' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'profile' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'role' => 'required|string'
         ]);
 
         $petugas = new Petugas;
@@ -63,6 +64,7 @@ class PetugasController extends Controller
             $path = $gambar->storeAs('public/petugas/profile', $namaGambar);
             $petugas->profile = $namaGambar;
         }
+        $petugas->role = $request->role;
 
         $petugas->save();
 

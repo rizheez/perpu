@@ -85,6 +85,10 @@
                                 <input type="file" class="form-control-file mt-3" id="profile" name="profile"
                                     onchange="previewImage(event)">
                             </div>
+                            <div class="form-group">
+                                <label for="role">Role</label>
+                                <input type="role" class="form-control" id="role" name="role" placeholder="role">
+                            </div>
                         </div>
                         <div class="card-action d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
