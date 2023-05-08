@@ -28,13 +28,9 @@ use App\Http\Controllers\Auth\LogoutController;
 
 
 // Route untuk mengakses halaman utama
+// Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
-Route::get('/bukuku', function () {
-    return view('content.home.homi');
-});
-Route::get('/bukulist', function () {
-    return view('content.home.buku');
-});
+Route::get('/bukulist', [HomeController::class, 'listBuku'])->name('home.list');
 // Route untuk mengakses halaman dashboard petugas
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth:petugas');
 
