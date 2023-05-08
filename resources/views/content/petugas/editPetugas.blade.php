@@ -32,6 +32,15 @@
                     <div class="card-header">
                         <div class="text-upercase ml-2 page-title">Edit Data Petugas</div>
                     </div>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form action="{{ route('petugas.edit', $data->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -64,19 +73,28 @@
                             <div class="form-group">
                                 <label for="password">Password</label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="password" value="{{ $data->password }}">
+                                    placeholder="********">
+                                <span class="font-italic"><strong>Tidak perlu mengisi field ini jika tidak ingin mengubah
+                                        password</strong> </span>
                             </div>
-                            <div class="form-group d-flex flex-column">
-                                <label class="fw-bold" for="profile">Upload File Profile Untuk Mengubah Gambar Profile<p>
+                            <div class="form-group  d-flex flex-column">
+                                <label class="fw-bold" for="profile">Upload File Profile Untuk Mengubah Gambar Profile
+                                    <p>
                                         (Abaikan
                                         jika
                                         tidak ingin mengubah
-                                        gambar profile)</p></label>
+                                        gambar profile)</p>
+                                </label>
                                 <p id="preview-text" class="mt-2" style="display:none">Preview Profile</p>
                                 <img id="preview" src="" alt="" style="max-width: 150px">
                                 {{-- <input type="file" class="form-control-file" id="gambar" name="gambar"> --}}
                                 <input type="file" name="profile" id="profile" class="form-control-file mt-3"
                                     onchange="previewImage(event)">
+                            </div>
+                            <div class="form-group">
+                                <label for="role">Role</label>
+                                <input type="role" class="form-control" id="role" name="role" placeholder="role"
+                                    value="{{ $data->role }}">
                             </div>
                         </div>
                         <div class="card-action d-flex justify-content-end">

@@ -6,7 +6,7 @@
             @if (!Auth::guard('petugas')->check())
                 <li class="nav-item dropdown hidden-caret">
                     <a href="{{ route('login') }}" class="text-white" style="font-size: 17px;"><i
-                            class="bi bi-box-arrow-in-right mr-1"></i>Login</a>
+                            class="bi bi-box-arrow-in-right mr-1"></i>Login Admin</a>
                 </li>
             @else
                 <li class="nav-item dropdown hidden-caret">

@@ -23,10 +23,10 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="row">
+                                <div class="row mx-sm-3 mx-auto mt-3">
 
                                     @foreach ($data as $d)
-                                        <div class="col-md-3 mb-5">
+                                        <div class="col mb-5">
                                             <div class="card" style="width: 300px">
                                                 <img src="{{ asset('storage/buku/gambar/' . $d->gambar) }}"
                                                     class="card-img-top" alt="..." style="height : 390px">

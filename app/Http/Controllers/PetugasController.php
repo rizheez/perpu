@@ -87,7 +87,7 @@ class PetugasController extends Controller
             'telepon' => 'required|string',
             'email' => 'required|email|max:255',
             'username' => 'required|string|max:50',
-            'password' => 'required|max:100',
+            'password' => 'nullable|max:100',
             'profile' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
@@ -99,7 +99,9 @@ class PetugasController extends Controller
         $petugas->telepon = $request->telepon;
         $petugas->email = $request->email;
         $petugas->username = $request->username;
-        $petugas->password = bcrypt($request->password);
+        if ($request->password !== null) {
+            $petugas->password = bcrypt($request->password);
+        }
         if ($request->hasFile('profile')) {
             // Hapus gambar lama
             Storage::delete('public/petugas/profile' . $petugas->profile);
