@@ -44,21 +44,16 @@
                                         <form class="form-inline mb-3" method="GET" action="{{ route('home.list') }}">
                                             <div class="form-group mr-2">
                                                 <input type="text" class="form-control" placeholder="Cari judul buku..."
-                                                    name="search">
+                                                    value="{{ request()->query('search') }}" name="search">
                                             </div>
                                             <button type="submit" class="btn btn-primary">Cari</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                            @if (session('message'))
-                                <div class="alert alert-warning">
-                                    {{ session('message') }}
-                                </div>
-                            @endif
                             <div class="card-body">
                                 <div class="row">
-                                    @foreach ($data as $d)
+                                    @forelse ($data as $d)
                                         <div class="col-md-3 mb-5">
                                             <div class="card" style="width: 300px">
                                                 <img src="{{ asset('storage/buku/gambar/' . $d->gambar) }}"
@@ -70,11 +65,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    @empty
+                                        <p class="mx-auto h2">Buku <strong> {{ request()->query('search') }} </strong>
+                                            tidak
+                                            ditemukan </p>
+                                    @endforelse
                                 </div>
 
                             </div>
-                            <div class="card-footer d-flex justify-content-end">
+                            <div class="card-footer mx-auto">
                                 {{ $data->links('pagination::bootstrap-4') }}
                             </div>
                         </div>

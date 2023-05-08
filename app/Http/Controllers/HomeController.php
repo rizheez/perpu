@@ -23,32 +23,31 @@ class HomeController extends Controller
         $kategori_id = $request->input('kategori');
         $search = $request->input('search');
 
-        if ($kategori_id) {
-            if ($kategori_id == 'semua') {
-                $request->session()->forget('kategori_id');
-                return redirect()->route('home.list');
-            } else {
-                $request->session()->put('kategori_id', $kategori_id);
-            }
+        if (!$request->has('kategori')) {
+            $request->session()->forget('kategori_id');
+        }
+
+        if ($kategori_id && $kategori_id !== 'semua') {
+            $request->session()->put('kategori_id', $kategori_id);
+        } elseif ($kategori_id === 'semua') {
+            $request->session()->forget('kategori_id');
+            return redirect()->route('home.list');
         }
 
         $data = Buku::with('kategori');
 
         if ($search) {
+            $request->session()->forget('kategori_id');
             $data->where('judul', 'like', '%' . $search . '%');
-            if (!$data->count()) {
-                return redirect()->route('home.list')->with('message', 'Buku tidak ditemukan');
-            }
         } elseif ($request->session()->has('kategori_id')) {
-            $kategori_id = $request->session()->get('kategori_id');
-            $data->whereHas('kategori', function ($query) use ($kategori_id) {
-                $query->where('nama', $kategori_id);
+            $data->whereHas('kategori', function ($query) use ($request) {
+                $query->where('nama', $request->session()->get('kategori_id'));
             });
         }
 
         $data = $data->paginate(8)->appends(['search' => $search]);
 
         $kategori = Kategori::all();
-        return view('content.home.buku', compact(['data', 'kategori']));
+        return view('content.home.buku', compact('data', 'kategori'));
     }
 }
